@@ -1,0 +1,1 @@
+# hibernate-natural-id
