@@ -97,4 +97,45 @@ public class NaturalIdTest {
 
         session.close();
     }
+
+    @Test
+    @Transactional
+    public void loadOptionalByNaturalId() {
+//        given
+        Session session = em.unwrap(Session.class);
+
+//        when
+        Optional<Computer> computerOptional = session.byNaturalId(Computer.class)
+                .using("macAddress", "12-34-56-78-9A-BC")
+                .using("serialNumber", 111L)
+                .loadOptional();
+
+//        then
+        assertTrue(computerOptional.isPresent());
+        assertThat(computerOptional.get().getId(), is(1));
+        assertThat(computerOptional.get().getSerialNumber(), is(111L));
+        assertThat(computerOptional.get().getMacAddress(), is("12-34-56-78-9A-BC"));
+
+        session.close();
+    }
+
+    @Test
+    @Transactional
+    public void proxyByNaturalId() {
+//        given
+        Session session = em.unwrap(Session.class);
+
+//        when
+        Computer computerOptional = session.byNaturalId(Computer.class)
+                .using("macAddress", "12-34-56-78-9A-BC")
+                .using("serialNumber", 111L)
+                .getReference();
+
+//        then
+        assertThat(computerOptional.getId(), is(1));
+        assertThat(computerOptional.getSerialNumber(), is(111L));
+        assertThat(computerOptional.getMacAddress(), is("12-34-56-78-9A-BC"));
+
+        session.close();
+    }
 }
