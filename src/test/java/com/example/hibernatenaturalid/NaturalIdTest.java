@@ -77,4 +77,24 @@ public class NaturalIdTest {
 
         session.close();
     }
+
+    @Test
+    @Transactional
+    public void loadByNaturalId() {
+//        given
+        Session session = em.unwrap(Session.class);
+
+//        when
+        Computer computer = session.byNaturalId(Computer.class)
+                .using("macAddress", "12-34-56-78-9A-BC")
+                .using("serialNumber", 111L)
+                .load();
+
+//        then
+        assertThat(computer.getId(), is(1));
+        assertThat(computer.getSerialNumber(), is(111L));
+        assertThat(computer.getMacAddress(), is("12-34-56-78-9A-BC"));
+
+        session.close();
+    }
 }
