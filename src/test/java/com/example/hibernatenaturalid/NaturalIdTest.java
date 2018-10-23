@@ -28,14 +28,13 @@ public class NaturalIdTest {
     
     @Test
     @Transactional
-    public void loadByNaturalId() {
+    public void loadBySimpleNaturalId() {
 //        given
         Session session = em.unwrap(Session.class);
 
 //        when
-        Book book = session.byNaturalId(Book.class)
-                .using("isbn", "978-3-16-148410-0")
-                .load();
+        Book book = session.bySimpleNaturalId(Book.class)
+                .load("978-3-16-148410-0");
 
 //        then
         assertThat(book.getId(), is(1));
@@ -46,14 +45,13 @@ public class NaturalIdTest {
 
     @Test
     @Transactional
-    public void loadOptionalByNaturalId() {
+    public void loadOptionalBySimpleNaturalId() {
 //        given
         Session session = em.unwrap(Session.class);
 
 //        when
-        Optional<Book> book = session.byNaturalId(Book.class)
-                .using("isbn", "978-3-16-148410-0")
-                .loadOptional();
+        Optional<Book> book = session.bySimpleNaturalId(Book.class)
+                .loadOptional("978-3-16-148410-0");
 
 //        then
         assertTrue(book.isPresent());
@@ -65,14 +63,13 @@ public class NaturalIdTest {
 
     @Test
     @Transactional
-    public void proxyByNaturalId() {
+    public void proxyBySimpleNaturalId() {
 //        given
         Session session = em.unwrap(Session.class);
 
 //        when
-        Book book = session.byNaturalId(Book.class)
-                .using("isbn", "978-3-16-148410-0")
-                .getReference();
+        Book book = session.bySimpleNaturalId(Book.class)
+                .getReference("978-3-16-148410-0");
 
 //        then
         assertThat(book.getId(), is(1));
