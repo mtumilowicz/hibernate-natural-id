@@ -2,13 +2,16 @@
 Exploring basic features of `@NaturalId` (hibernate annotation).
 
 _Reference_: http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#naturalid  
-_Reference_: https://www.thoughts-on-java.org/naturalid-good-way-persist-natural-ids-hibernate/  
-_Reference_: https://howtodoinjava.com/hibernate/hibernate-naturalid-example-tutorial/
+_Reference_: https://www.thoughts-on-java.org/naturalid-good-way-persist-natural-ids-hibernate/
 
 # preface
 Natural ids represent domain model unique identifiers that have a meaning 
 in the real world too. Even if a natural id does not make a good primary 
 key, it’s still useful to tell Hibernate about it.
+
+Most often, it’s a better idea to generate numeric, surrogate keys. 
+They are easier to manage, and most frameworks can handle them more 
+efficiently than more complex natural identifiers.
 
 A natural id may be mutable or immutable. By default the @NaturalId 
 annotation marks an immutable natural id attribute. 
@@ -55,11 +58,17 @@ until a flush occurs.
                 .using("serialNumber", 111L)
                 .getReference();                        
         ```
+# internals
+Hibernate performs 2 queries:
+```
+Hibernate: select book_.id as id1_0_ from book book_ where book_.isbn=?
+Hibernate: select book0_.id as id1_0_0_, book0_.isbn as isbn2_0_0_ from book book0_ where book0_.id=?
+```
+1. We find PK for entity using natural id
+1. We find entity for PK given found in (1.)
 
-# cache
-Not only can this NaturalId-to-PK resolution be cached in the Session, 
-but we can also have it cached in the second-level cache if second 
-level caching is enabled.
+Hibernate performs that simple action in two steps because of
+L1, L2 cache (based on PK).
 
 # project description
 * Entity with only one `@NaturalId`
