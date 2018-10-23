@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mtumilowicz/hibernate-natural-id.svg?branch=master)](https://travis-ci.com/mtumilowicz/hibernate-natural-id)
+
 # hibernate-natural-id
 Exploring basic features of `@NaturalId` (hibernate annotation).
 
