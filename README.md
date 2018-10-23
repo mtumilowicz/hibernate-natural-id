@@ -36,10 +36,6 @@ until a flush occurs.
                 .getReference("978-3-16-148410-0");                         
         ```
         
-        _Remark_: If the entity does not define a natural id, or if 
-        the natural id is not of a "simple" type, an exception will 
-        be thrown there.
-        
     * any given number of `@NaturalId`
         ```
         Computer computer = session.byNaturalId(Computer.class)
@@ -58,6 +54,10 @@ until a flush occurs.
                 .using("serialNumber", 111L)
                 .getReference();                        
         ```
+        
+    * **If the entity does not define a natural id, or if 
+              the natural id is not of a "simple" type, an exception will 
+              be thrown there.**
 # internals
 Hibernate performs 2 queries:
 ```
@@ -65,7 +65,7 @@ Hibernate: select book_.id as id1_0_ from book book_ where book_.isbn=?
 Hibernate: select book0_.id as id1_0_0_, book0_.isbn as isbn2_0_0_ from book book0_ where book0_.id=?
 ```
 1. We find PK for entity using natural id
-1. We find entity for PK given found in (1.)
+1. We find entity for PK found in (1.)
 
 Hibernate performs that simple action in two steps because of
 L1, L2 cache (based on PK).
