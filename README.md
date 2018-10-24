@@ -15,7 +15,7 @@ Most often, it’s a better idea to generate numeric, surrogate keys.
 They are easier to manage, and most frameworks can handle them more 
 efficiently than more complex natural identifiers.
 
-A natural id may be mutable or immutable. By default the @NaturalId 
+A natural id may be mutable or immutable. By default the `@NaturalId` 
 annotation marks an immutable natural id attribute. 
 
 Within the Session, Hibernate maintains a mapping from natural id 
@@ -25,7 +25,7 @@ until a flush occurs.
 
 # manual
 1. Put `@NaturalId` annotation over attributes in entity
-1. We have two possibilities:
+1. We have three possibilities:
     * only one attribute with `@NaturalId`, then load entity using:
         ```
         Book book = session.bySimpleNaturalId(Book.class)
